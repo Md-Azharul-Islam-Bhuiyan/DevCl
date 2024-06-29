@@ -28,7 +28,7 @@ class BrandSerializers(serializers.ModelSerializer):
 class ProductSerializers(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['product_name', 'category', 
+        fields = ['id', 'product_name', 'category', 
                   'sub_category', 'brand', 'unit', 'sku', 
                   'minimum_quantity', 'quantity', 
                   'description', 'tax', 'discount', 'price', 
