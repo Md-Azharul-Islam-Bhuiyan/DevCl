@@ -17,41 +17,48 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.filters import SearchFilter, OrderingFilter
-
+from rest_framework.permissions import IsAuthenticated
 
 class CategoryViews(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializers
 
 
 class CategoryRetrieveUpdateDestroyAPIViews(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializers
 
 
 class SubCategoryViews(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = SubCategory.objects.all()
     serializer_class = SubCategorySerializers
 
 
 class SubCategoryRetrieveUpdateDestroyAPIViews(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = SubCategory.objects.all()
     serializer_class = SubCategorySerializers
 
 
 class BrandViews(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Brand.objects.all()
     serializer_class = BrandSerializers
 
 
 class BrandRetrieveUpdateDestroyAPIViews(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Brand.objects.all()
     serializer_class = BrandSerializers
 
 
 class ProductAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     filterset_class = ProductFilter
-    search_fields = ['product_name', 'summary', 'description']
+    search_fields = ['product_name', 'description']
     ordering_fields = ['price']
 
     def get(self, request, *args, **kwargs):
@@ -70,7 +77,8 @@ class ProductAPIView(APIView):
         if serializer.is_valid():
             seller = serializer.validated_data['seller']
             seller_exist =SellerProfile.objects.filter(seller=seller).exists()
-            if seller_exist:
+            print("role>>>>>", seller.role)
+            if seller_exist or (seller.role).lower() == ('ADMIN').lower():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
@@ -80,9 +88,10 @@ class ProductAPIView(APIView):
 
 
 class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductSerializers
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter
-    search_fields = ['product_name', 'summary', 'description']
+    search_fields = ['product_name', 'description']
     ordering_fields = ['price']
