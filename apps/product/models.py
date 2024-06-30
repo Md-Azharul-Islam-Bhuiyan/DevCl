@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone, text
-from apps.account.models import SellerProfile
+from apps.account.models import SellerProfile, User
 
 
 class Category(models.Model):
@@ -65,7 +65,7 @@ class Product(models.Model):
         max_length=20, choices=STATUS_TYPE.choices, default=STATUS_TYPE.STOCK
     )
     product_image = models.ImageField(upload_to='product/images/', default=None)
-    seller = models.ForeignKey(SellerProfile, on_delete=models.CASCADE, blank=True, null=True)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

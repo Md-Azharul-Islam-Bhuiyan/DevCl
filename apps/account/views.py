@@ -27,7 +27,7 @@ User = get_user_model()
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
     access = refresh.access_token
-    access['id'] = user.user_id
+    access['id'] = user.user_id 
     access['username'] = user.username
     access['email'] = user.email
     access['role'] = user.role
@@ -127,7 +127,6 @@ class UserLoginView(APIView):
         email = serializer.data.get('email')
         password = serializer.data.get('password')
         user = authenticate(email=email, password=password)
-        # print(user.email)
         if user is not None:
             token = get_tokens_for_user(user)
             return Response({'token': token, 'msg': 'Login Success'}, status=status.HTTP_200_OK)

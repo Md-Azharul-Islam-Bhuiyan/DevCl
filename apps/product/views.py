@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .filters import ProductFilter
+from apps.account.models import SellerProfile
 from apps.product.models import (
                                   Category, SubCategory, Brand, Product
                                 )
@@ -67,8 +68,14 @@ class ProductAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = ProductSerializers(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            seller = serializer.validated_data['seller']
+            seller_exist =SellerProfile.objects.filter(seller=seller).exists()
+            if seller_exist:
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"Error": "User Doesn't seller"}, status=status.HTTP_403_FORBIDDEN)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
