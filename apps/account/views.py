@@ -135,18 +135,15 @@ class UserLoginView(APIView):
             return Response({'errors': 'Email or Password is not Valid'}, status=status.HTTP_404_NOT_FOUND)
 
 class UpdateUserView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UpdateUserSerializer
     
 
 class CustomerRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
     queryset = CustomerProfile.objects.all()
     serializer_class = UpdateCustomerProfileSerializer
 
 
 class SellerRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
     queryset = SellerProfile.objects.all()
     serializer_class = UpdateSellerProfileSerializer
