@@ -10,19 +10,19 @@ from apps.product.models import (
 class CategorySerializers(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['name']
+        fields = ['id', 'name']
 
 
 class SubCategorySerializers(serializers.ModelSerializer):
     class Meta:
         model = SubCategory
-        fields = ['name']
+        fields = ['id', 'name']
 
 
 class BrandSerializers(serializers.ModelSerializer):
     class Meta:
         model = Brand
-        fields = ['name']
+        fields = ['id', 'name']
 
 
 class ProductSerializers(serializers.ModelSerializer):
